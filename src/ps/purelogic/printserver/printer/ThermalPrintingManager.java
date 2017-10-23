@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ThermalPrintingManager {
     
-    private static Map<String, String> properties;
+    private static Map<String, Object> properties;
 
     public static void initialize() throws IOException, FontFormatException {
         Properties config = new Properties();
@@ -30,13 +30,14 @@ public class ThermalPrintingManager {
         
         properties = new HashMap<>();
         
-        properties.put("paper-width", "3");
-        properties.put("paper-height", "3.69");
-        properties.put("paper-left-margin", "0.12");
-        properties.put("paper-right-margin", "0.10");
-        properties.put("paper-top-margin", "0.12");
-        properties.put("paper-bottom-margin", "0.01");
-        properties.put("paper-size-pixels-factor", "200");
+        properties.put("paper-width", 3);
+        properties.put("paper-height", 3.69);
+        properties.put("paper-left-margin", 0.12);
+        properties.put("paper-right-margin", 0.10);
+        properties.put("paper-top-margin", 0.12);
+        properties.put("paper-bottom-margin", 0.01);
+        properties.put("paper-size-pixels-factor", 200);
+        properties.put("date-format", "dd/MM/yyyy HH:mm:ss");
         
         config.entrySet().stream().forEach((configuration) -> {
             properties.put(configuration.getKey().toString(), configuration.getValue().toString());
@@ -44,12 +45,12 @@ public class ThermalPrintingManager {
         
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         
-        if (StringUtils.isNotBlank(properties.get("mono-font-path"))) {
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(properties.get("mono-font-path"))));
+        if (properties.get("mono-font-path") != null && StringUtils.isNotBlank(properties.get("mono-font-path").toString())) {
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(properties.get("mono-font-path").toString())));
         }
         
-        if (StringUtils.isNotBlank(properties.get("mono-barcode-font-path"))) {
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(properties.get("mono-barcode-font-path"))));
+        if (properties.get("mono-barcode-font-path") != null && StringUtils.isNotBlank(properties.get("mono-barcode-font-path").toString())) {
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(properties.get("mono-barcode-font-path").toString())));
         }
     }
     
